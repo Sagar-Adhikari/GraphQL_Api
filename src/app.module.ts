@@ -5,6 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { BookModule } from './book/book.module';
 import { AppResolver } from './app.resolvers';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -18,6 +19,19 @@ import { AppResolver } from './app.resolvers';
         //need to install npm pkg ts-morph
         path: join(process.cwd(), "src/graphql.ts"),
       }
+    }),
+
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'root',
+      database: 'car_dev',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      //entities is require otherwise table is not shown in database
+      synchronize: true,
+      //shouldn't use in production
     }),
     BookModule
   ],
