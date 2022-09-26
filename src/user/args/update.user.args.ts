@@ -3,10 +3,13 @@ import { Field, InputType, Int } from "@nestjs/graphql";
 
 //This file is similar to dto in REST Apis
 @InputType()
-export class AddBookArgs {
+export class UpdateUserArgs {
+    @Field(type => Int)
+    id: number;
+
     @Field()
-    title: string;
+    name: string;
 
     @Field(type => Int)
-    price: number;
+    email: string;
 }

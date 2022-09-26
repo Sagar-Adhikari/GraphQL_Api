@@ -1,6 +1,8 @@
 
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
+//Basically, schema is exposed to outer world like frontend 
+//so the Credential data should not be written here like user's password
 @ObjectType()
 export class Book {
     @Field(type => Int)
@@ -9,7 +11,7 @@ export class Book {
     @Field()
     title: string;
 
-    @Field((type) => Int, { nullable: true })
+    @Field((type) => Int)
     price: number;
 
 }

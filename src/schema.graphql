@@ -5,23 +5,50 @@
 type Book {
   id: Int!
   title: String!
-  price: Int
+  price: Int!
+}
+
+type User {
+  id: Int!
+  name: String!
+  email: String!
 }
 
 type Query {
   index: String!
   books: [Book!]!
-  findBookById(bookId: Int!): Book
+  bookById(bookId: Int!): Book!
+  users: [User!]!
+  userById(userId: Int!): User!
 }
 
 type Mutation {
   deleteBook(bookId: Int!): String!
   addBook(addBookArgs: AddBookArgs!): String!
-  updateBook(bookId: Int!, updateBookArgs: AddBookArgs!): String!
+  updateBook(updateBookArgs: UpdateBookArgs!): String!
+  deleteUser(userId: Int!): String!
+  addUser(addUserArgs: AddUserArgs!): String!
+  updateUser(updateUserArgs: UpdateUserArgs!): String!
 }
 
 input AddBookArgs {
+  title: String!
+  price: Int!
+}
+
+input UpdateBookArgs {
   id: Int!
   title: String!
   price: Int!
+}
+
+input AddUserArgs {
+  name: String!
+  email: Int!
+}
+
+input UpdateUserArgs {
+  id: Int!
+  name: String!
+  email: Int!
 }
