@@ -9,7 +9,7 @@ export class Book {
     @Field()
     title: string;
 
-    @Field((type) => Int)
+    @Field((type) => Int, { nullable: true })
     price: number;
 
 }
