@@ -8,6 +8,25 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export interface AddUserArgs {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: string;
+}
+
+export interface LoginUserArgs {
+    email: string;
+    password: string;
+}
+
+export interface UpdateUserArgs {
+    id: number;
+    name: string;
+    email: number;
+}
+
 export interface AddBookArgs {
     title: string;
     price: number;
@@ -19,17 +38,6 @@ export interface UpdateBookArgs {
     price: number;
 }
 
-export interface AddUserArgs {
-    name: string;
-    email: number;
-}
-
-export interface UpdateUserArgs {
-    id: number;
-    name: string;
-    email: number;
-}
-
 export interface Book {
     id: number;
     title: string;
@@ -38,25 +46,33 @@ export interface Book {
 
 export interface User {
     id: number;
-    name: string;
+    firstName: string;
+    lastName: string;
+    role: string;
     email: string;
 }
 
 export interface IQuery {
     index(): string | Promise<string>;
-    books(): Book[] | Promise<Book[]>;
-    bookById(bookId: number): Book | Promise<Book>;
+    testQuery(): string | Promise<string>;
+    securedLogin(): string | Promise<string>;
+    securedRoleForAdmin(): string | Promise<string>;
+    securedRoleForNormalUser(): string | Promise<string>;
+    me(): User | Promise<User>;
     users(): User[] | Promise<User[]>;
     userById(userId: number): User | Promise<User>;
+    books(): Book[] | Promise<Book[]>;
+    bookById(bookId: number): Book | Promise<Book>;
 }
 
 export interface IMutation {
+    addUser(addUserArgs: AddUserArgs): string | Promise<string>;
+    login(loginUserArgs: LoginUserArgs): string | Promise<string>;
+    deleteUser(userId: number): string | Promise<string>;
+    updateUser(updateUserArgs: UpdateUserArgs): string | Promise<string>;
     deleteBook(bookId: number): string | Promise<string>;
     addBook(addBookArgs: AddBookArgs): string | Promise<string>;
     updateBook(updateBookArgs: UpdateBookArgs): string | Promise<string>;
-    deleteUser(userId: number): string | Promise<string>;
-    addUser(addUserArgs: AddUserArgs): string | Promise<string>;
-    updateUser(updateUserArgs: UpdateUserArgs): string | Promise<string>;
 }
 
 type Nullable<T> = T | null;

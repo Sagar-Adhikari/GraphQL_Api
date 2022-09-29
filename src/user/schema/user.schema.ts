@@ -9,9 +9,15 @@ export class User {
     id: number;
 
     @Field()
-    name: string;
+    firstName: string;
+
+    @Field()
+    lastName: string;
+
+    @Field()
+    role: string;
 
     @Field((type) => String)
-    email: number;
+    email: string;
 
 }

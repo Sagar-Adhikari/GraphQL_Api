@@ -7,10 +7,17 @@ import { BookModule } from './book/book.module';
 import { AppResolver } from './app.resolvers';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    UserModule,
+    AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
+      cors: {
+        origin: '*',
+        credentials: true,
+      },
       driver: ApolloDriver,
       // debug: true,
       playground: true,
@@ -35,7 +42,7 @@ import { UserModule } from './user/user.module';
       //shouldn't use in production
     }),
     BookModule,
-    UserModule
+
   ],
   controllers: [],
   providers: [AppResolver],

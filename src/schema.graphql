@@ -10,25 +10,52 @@ type Book {
 
 type User {
   id: Int!
-  name: String!
+  firstName: String!
+  lastName: String!
+  role: String!
   email: String!
 }
 
 type Query {
   index: String!
-  books: [Book!]!
-  bookById(bookId: Int!): Book!
+  testQuery: String!
+  securedLogin: String!
+  securedRoleForAdmin: String!
+  securedRoleForNormalUser: String!
+  me: User!
   users: [User!]!
   userById(userId: Int!): User!
+  books: [Book!]!
+  bookById(bookId: Int!): Book!
 }
 
 type Mutation {
+  addUser(addUserArgs: AddUserArgs!): String!
+  login(loginUserArgs: LoginUserArgs!): String!
+  deleteUser(userId: Int!): String!
+  updateUser(updateUserArgs: UpdateUserArgs!): String!
   deleteBook(bookId: Int!): String!
   addBook(addBookArgs: AddBookArgs!): String!
   updateBook(updateBookArgs: UpdateBookArgs!): String!
-  deleteUser(userId: Int!): String!
-  addUser(addUserArgs: AddUserArgs!): String!
-  updateUser(updateUserArgs: UpdateUserArgs!): String!
+}
+
+input AddUserArgs {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  role: String!
+}
+
+input LoginUserArgs {
+  email: String!
+  password: String!
+}
+
+input UpdateUserArgs {
+  id: Int!
+  name: String!
+  email: Int!
 }
 
 input AddBookArgs {
@@ -40,15 +67,4 @@ input UpdateBookArgs {
   id: Int!
   title: String!
   price: Int!
-}
-
-input AddUserArgs {
-  name: String!
-  email: Int!
-}
-
-input UpdateUserArgs {
-  id: Int!
-  name: String!
-  email: Int!
 }
