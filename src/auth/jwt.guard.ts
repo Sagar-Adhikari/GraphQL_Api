@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
-import { UserEntity } from "src/user/entity/user.entity";
+import { User } from "src/user/entity/user.entity";
 import * as jwt from "jsonwebtoken"
 
 @Injectable()
@@ -10,6 +10,7 @@ export class JwtGuard implements CanActivate {
         const ctx = GqlExecutionContext.create(context).getContext();
 
         const authorizationHeader = ctx.req.headers.authorization;
+        console.log('authorization', authorizationHeader);
 
         if (authorizationHeader) {
             const token = authorizationHeader.split(" ")[1];

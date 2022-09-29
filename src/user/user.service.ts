@@ -1,23 +1,23 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { AddUserArgs } from "./args/add.user.args";
-import { LoginUserArgs } from "./args/login-user.args";
-import { UpdateUserArgs } from "./args/update.user.args";
-import { UserEntity } from "./entity/user.entity";
-import { User } from "./schema/user.schema";
+import { AddUserArgs } from "./dto/add.user.args";
+import { LoginUserInput } from "./dto/login-user.args";
+import { UpdateUserArgs } from "./dto/update.user.args";
+import { User } from "./entity/user.entity";
+import { UserDocument } from "./schema/user.schema";
 
 import * as jwt from "jsonwebtoken";
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(UserEntity) public readonly userRepository: Repository<UserEntity>) {
+    constructor(@InjectRepository(User) public readonly userRepository: Repository<User>) {
 
     }
 
 
     async findUserByEmail(email: string) {
-        let user: UserEntity = await this.userRepository.findOne({ where: { email: email } });
+        let user: User = await this.userRepository.findOne({ where: { email: email } });
         return user;
     }
 
@@ -26,19 +26,19 @@ export class UserService {
         return "User has been deleted!"
     }
 
-    async findUserById(id: number): Promise<UserEntity> {
+    async findUserById(id: number): Promise<User> {
         let book = await this.userRepository.findOne({ where: { id: id } });
         return book;
     }
 
-    async findAllUsers(): Promise<UserEntity[]> {
+    async findAllUsers(): Promise<User[]> {
         let users = await this.userRepository.find();
         return users;
     }
 
     async addUser(addUserArgs: AddUserArgs): Promise<string> {
         console.log('add user:::: mutation triggered')
-        let user: UserEntity = new UserEntity();
+        let user: User = new User();
         user.firstName = addUserArgs.firstName;
         user.lastName = addUserArgs.lastName;
         user.email = addUserArgs.email;
@@ -51,9 +51,9 @@ export class UserService {
 
     }
 
-    async login(loginUser: LoginUserArgs): Promise<any> {
+    async login(loginUser: LoginUserInput): Promise<any> {
         // try {
-        const user: UserEntity = await this.userRepository.findOne({ where: { email: loginUser.email } });
+        const user: User = await this.userRepository.findOne({ where: { email: loginUser.email } });
         console.log('find user', user)
         let payload = {
             id: user.id,
@@ -77,7 +77,7 @@ export class UserService {
     async updateBook(updateUserArgs: UpdateUserArgs): Promise<string> {
         const id = Number(updateUserArgs.id)
         try {
-            let user: UserEntity = await this.userRepository.findOne({ where: { id: id } });
+            let user: User = await this.userRepository.findOne({ where: { id: id } });
             user.firstName = updateUserArgs.name;
             user.email = updateUserArgs.email;
 

@@ -8,7 +8,7 @@ type Book {
   price: Int!
 }
 
-type User {
+type UserDocument {
   id: Int!
   firstName: String!
   lastName: String!
@@ -22,16 +22,16 @@ type Query {
   securedLogin: String!
   securedRoleForAdmin: String!
   securedRoleForNormalUser: String!
-  me: User!
-  users: [User!]!
-  userById(userId: Int!): User!
+  me: UserDocument!
+  users: [UserDocument!]!
+  userById(userId: Int!): UserDocument!
   books: [Book!]!
   bookById(bookId: Int!): Book!
 }
 
 type Mutation {
   addUser(addUserArgs: AddUserArgs!): String!
-  login(loginUserArgs: LoginUserArgs!): String!
+  login(loginUserInput: LoginUserInput!): String!
   deleteUser(userId: Int!): String!
   updateUser(updateUserArgs: UpdateUserArgs!): String!
   deleteBook(bookId: Int!): String!
@@ -47,7 +47,7 @@ input AddUserArgs {
   role: String!
 }
 
-input LoginUserArgs {
+input LoginUserInput {
   email: String!
   password: String!
 }

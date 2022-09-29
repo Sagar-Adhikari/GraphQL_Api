@@ -16,7 +16,7 @@ export interface AddUserArgs {
     role: string;
 }
 
-export interface LoginUserArgs {
+export interface LoginUserInput {
     email: string;
     password: string;
 }
@@ -44,7 +44,7 @@ export interface Book {
     price: number;
 }
 
-export interface User {
+export interface UserDocument {
     id: number;
     firstName: string;
     lastName: string;
@@ -58,16 +58,16 @@ export interface IQuery {
     securedLogin(): string | Promise<string>;
     securedRoleForAdmin(): string | Promise<string>;
     securedRoleForNormalUser(): string | Promise<string>;
-    me(): User | Promise<User>;
-    users(): User[] | Promise<User[]>;
-    userById(userId: number): User | Promise<User>;
+    me(): UserDocument | Promise<UserDocument>;
+    users(): UserDocument[] | Promise<UserDocument[]>;
+    userById(userId: number): UserDocument | Promise<UserDocument>;
     books(): Book[] | Promise<Book[]>;
     bookById(bookId: number): Book | Promise<Book>;
 }
 
 export interface IMutation {
     addUser(addUserArgs: AddUserArgs): string | Promise<string>;
-    login(loginUserArgs: LoginUserArgs): string | Promise<string>;
+    login(loginUserInput: LoginUserInput): string | Promise<string>;
     deleteUser(userId: number): string | Promise<string>;
     updateUser(updateUserArgs: UpdateUserArgs): string | Promise<string>;
     deleteBook(bookId: number): string | Promise<string>;

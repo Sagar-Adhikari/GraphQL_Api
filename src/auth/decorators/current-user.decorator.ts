@@ -1,8 +1,8 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
-import { UserEntity } from "../../user/entity/user.entity";
+import { User } from "../../user/entity/user.entity";
 
-export const getCurrentUserByContext = (context: ExecutionContext): UserEntity => {
+export const getCurrentUserByContext = (context: ExecutionContext): User => {
     if (context.getType() === 'http') {
         return context.switchToHttp().getRequest().user;
     }

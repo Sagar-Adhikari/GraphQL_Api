@@ -1,8 +1,8 @@
 import { Args, Context, Int, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { UserService } from "./user.service";
-import { AddUserArgs } from "./args/add.user.args";
-import { UpdateUserArgs } from "./args/update.user.args";
-import { User } from "./schema/user.schema";
+import { AddUserArgs } from "./dto/add.user.args";
+import { UpdateUserArgs } from "./dto/update.user.args";
+import { UserDocument } from "./schema/user.schema";
 import { AuthGuard } from "src/auth/auth.guard";
 import { UseGuards } from "@nestjs/common";
 
@@ -10,10 +10,10 @@ import { UseGuards } from "@nestjs/common";
 import { JwtGuard } from "src/auth/jwt.guard";
 import { RoleGuard, Roles } from "src/auth/role.guard";
 import { CurrentUser } from "../auth/decorators/current-user.decorator";
-import { LoginUserArgs } from "./args/login-user.args";
-import { UserEntity } from "./entity/user.entity";
+import { LoginUserInput } from "./dto/login-user.args";
+import { User } from "./entity/user.entity";
 
-@Resolver(of => User)
+@Resolver(of => UserDocument)
 export class UserResolver {
     //Queries and mutation
     constructor(private readonly userService: UserService) { }
@@ -31,10 +31,10 @@ export class UserResolver {
 
     @Mutation(returns => String, { name: "login" })
     @UseGuards()
-    async login(@Args("loginUserArgs") loginUserArgs: LoginUserArgs,
+    async login(@Args("loginUserInput") loginUserInput: LoginUserInput,
     ): Promise<any> {
         console.log('Login:::: mutation triggered')
-        return await this.userService.login(loginUserArgs);
+        return await this.userService.login(loginUserInput);
 
     }
 
@@ -57,18 +57,18 @@ export class UserResolver {
     }
 
     @UseGuards(JwtGuard)
-    @Query(() => User, { name: 'me' })
-    getMe(@CurrentUser() user: User) {
+    @Query(() => UserDocument, { name: 'me' })
+    getMe(@CurrentUser() user: UserDocument) {
         return user;
     }
 
 
-    @Query(returns => [User], { name: "users" })
+    @Query(returns => [UserDocument], { name: "users" })
     getAllUsers() {
         return this.userService.findAllUsers();
     }
 
-    @Query(returns => User, { name: "userById" })
+    @Query(returns => UserDocument, { name: "userById" })
     getUserById(@Args({ name: 'userId', type: () => Int }) id: number) {
         return this.userService.findUserById(id);
     }
